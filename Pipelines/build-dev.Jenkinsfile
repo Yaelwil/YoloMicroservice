@@ -42,7 +42,7 @@ pipeline {
         stage('Trigger Deploy') {
             steps {
                 build job: 'PolybotDeployDev', wait: false, parameters: [
-                    string(name: 'SERVICE_NAME', value: "YolosMicroservice"),
+                    string(name: 'SERVICE_NAME', value: "YoloMicroservice"),
                     string(name: 'IMAGE_FULL_NAME_PARAM', value: "$DOCKER_USERNAME/$IMAGE_BASE_NAME:$IMAGE_TAG")
                 ]
             }
