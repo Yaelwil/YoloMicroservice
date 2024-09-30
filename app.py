@@ -160,9 +160,8 @@ def consume():
             # Perform a POST request to the /results_predict endpoint
             try:
                 if prediction_id:
-                    # response = requests.post(f"{alb_url}/results_predict?predictionId={prediction_id}")
                     response = requests.post(
-                        f"{alb_url}/results_predict?predictionId={prediction_id}",
+                            f"{alb_url}/results_predict?predictionId={prediction_id}",
                         verify=domain_certificate_file  # Use the Python variable here
                     )
                     if response.status_code == 200:
@@ -171,6 +170,8 @@ def consume():
                         logger.info('Deleted the job from the queue')
                     else:
                         logger.error(f"Failed to send results. Status code: {response.status_code}")
+                        logger.error(f"response: {response}")
+                        logger.debug(f"URL:{alb_url}/results_predict?predictionId={prediction_id}")
                 else:
                     logger.error("Empty or missing predictionId")
             except requests.exceptions.RequestException as e:
