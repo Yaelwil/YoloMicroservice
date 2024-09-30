@@ -162,7 +162,7 @@ def consume():
                 if prediction_id:
                     # response = requests.post(f"{alb_url}/results_predict?predictionId={prediction_id}")
                     response = requests.post(
-                        f"{alb_url}/results_filter?predictionId={prediction_id}",
+                        f"{alb_url}/results_predict?predictionId={prediction_id}",
                         verify=domain_certificate_file  # Use the Python variable here
                     )
                     if response.status_code == 200:
