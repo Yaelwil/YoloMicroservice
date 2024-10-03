@@ -9,7 +9,6 @@ import requests
 import json
 from json_praising import PraisingJSON
 from dynamodb_save import store_results_in_dynamodb
-from get_cert import get_cert
 
 # Load environment variables
 images_bucket = os.environ["BUCKET_NAME"]
@@ -19,16 +18,8 @@ dynamodb_table_name = os.environ["DYNAMODB_TABLE_NAME"]
 alb_url = os.environ["ALB_URL"]
 
 prefix = os.environ["CERT_PREFIX"]
-DOMAIN_CERTIFICATE = get_cert(prefix)
 
-if DOMAIN_CERTIFICATE:
-    logger.info('Retrieved DOMAIN_CERTIFICATE from Secrets Manager')
-else:
-    raise ValueError("Failed to retrieve secret DOMAIN_CERTIFICATE from Secrets Manager")
-domain_certificate_file = 'DOMAIN_CERTIFICATE.pem'
-with open(domain_certificate_file, 'w') as file:
-    file.write(DOMAIN_CERTIFICATE)
-logger.info('Created certificate file successfully')
+
 
 # Initialize SQS client, S3 client, and DynamoDB resource
 sqs_client = boto3.client('sqs', region_name=region)
@@ -162,7 +153,6 @@ def consume():
                 if prediction_id:
                     response = requests.post(
                             f"{alb_url}/results_predict?predictionId={prediction_id}",
-                        verify=domain_certificate_file  # Use the Python variable here
                     )
                     if response.status_code == 200:
                         logger.info("Successfully sent results to the endpoint")
