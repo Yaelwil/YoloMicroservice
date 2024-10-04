@@ -19,8 +19,6 @@ alb_url = os.environ["ALB_URL"]
 
 prefix = os.environ["CERT_PREFIX"]
 
-
-
 # Initialize SQS client, S3 client, and DynamoDB resource
 sqs_client = boto3.client('sqs', region_name=region)
 s3 = boto3.client('s3')
